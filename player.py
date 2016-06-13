@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
     terminate = False # will be true when the game have to finish
     level = None # a reference to the level
     coins = 0 # the number of coins collected
+    lives=0
     game_over = False # true when the game is over
     def __init__(self,pos,imagesFiles,soundsFiles):
         # Call the parent class (Sprite) constructor
@@ -40,12 +41,24 @@ class Player(pygame.sprite.Sprite):
         sounds = soundsFiles
         #===============
         #Create a tuple that contain all the images needed for the walking animation in order:
-        self.walkImages = (images["playerWalk01"],images["playerWalk02"],images["playerWalk03"])
         
+                
+        #if self.changeX <0:
+        self.image1=pygame.transform.flip(images["playerWalk01"],True,False)
+        self.image2=pygame.transform.flip(images["playerWalk02"],True,False)
+        self.image3=pygame.transform.flip(images["playerWalk03"],True,False)
+        
+        self.walkImages = (self.image1,self.image2,self.image3)
+            
+            
+        #if self.changeX >0:
+        self.walkImages = (images["playerWalk01"],images["playerWalk02"],images["playerWalk03"])
+            
         self.image = images["playerFront"]
         self.rect = self.image.get_rect()
-        
-        
+
+
+
         #Create a custom sprite that represent the base of the player.
         self.innerSprite = Sprite(self.rect.left,self.rect.bottom -10,self.rect.width,10)
 
@@ -182,9 +195,21 @@ class Player(pygame.sprite.Sprite):
         #See if we hit a hud object:
         hit_list = pygame.sprite.spritecollide(self,self.level.hud_list,True)
         for block in hit_list:
-            self.level.score_list.add(ScoreBlock(block.rect.center,images["hud_3"]))
+            self.level.score_list.add(ScoreBlock(block.rect.center,images["hud_1"]))
             sounds["coin"].play()
             self.coins += 1
+
+        hit_list = pygame.sprite.spritecollide(self,self.level.hudheart_list,True)
+        for block in hit_list:
+            self.level.score_list.add(ScoreBlock(block.rect.center,images["hud_1"]))
+            sounds["coin"].play()
+            self.lives += 1
+
+        hit_list = pygame.sprite.spritecollide(self,self.level.hudgem_list,True)
+        for block in hit_list:
+            self.level.score_list.add(ScoreBlock(block.rect.center,images["hud_3"]))
+            sounds["coin"].play()
+            self.coins += 3
         #===============================================================
         #see if we are in the air:
         if self.changeY > 0 and not self.jumped:
@@ -250,8 +275,16 @@ class Player(pygame.sprite.Sprite):
     #===================================================================
     def move_left(self):
         self.changeX = -8
+        self.image1=pygame.transform.flip(images["playerWalk01"],True,False)
+        self.image2=pygame.transform.flip(images["playerWalk02"],True,False)
+        self.image3=pygame.transform.flip(images["playerWalk03"],True,False)
+        
+        self.walkImages = (self.image1,self.image2,self.image3)
+        
     def move_right(self):
         self.changeX = 8
+        self.walkImages = (images["playerWalk01"],images["playerWalk02"],images["playerWalk03"])
+
     def stop(self):
         self.changeX = 0
     #===================================================================    

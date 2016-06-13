@@ -4,13 +4,14 @@
 import pygame,levels
 from player import Player
 from FilesLoader import *
-from menu import Menu
+from menu import *
+from introduccion import pausa
 
 #--Images and Sounds Files:
 images = None
 sounds = None
 #--------------------------
-# Screen dimensions:
+# Screen dimensio=ns:
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 500
 #=======================================================================
@@ -19,6 +20,7 @@ class Game(object):
     running = False
     quitGame = False
     win_message = False
+    #quitPause = False
     lives = 3
     
     help_menu = False
@@ -38,17 +40,17 @@ class Game(object):
         self.playerSprite.add(self.player)
         # -------------------
         self.levelList = []
-        self.levelList.append(levels.Level_One(images,sounds,self.player))
-        self.levelList.append(levels.Level_Two(images,sounds,self.player))
+        self.levelList.append(levels.Level_One(images,sounds,self.player,screen))
+        self.levelList.append(levels.Level_Two(images,sounds,self.player,screen))
         self.currentLevel = 0
         self.level = self.levelList[self.currentLevel]
         self.level.load_music()
         self.player.level = self.level
         #--------------------------------------------------------------
-        self.text_font = pygame.font.Font("game_files/FreeSansBold.ttf",38)
+        self.text_font = pygame.font.Font("game_files/FreeSansBold.ttf",25)
         #Create menu object:
-        self.menu = Menu(screen,("Start","Exit"),ttf_font="game_files/FreeSansBold.ttf",
-                                font_color=(128,128,255),bg_image=images["intro"],font_size=38)
+        self.menu = Menu(screen,("Jugar","Instrucciones","Salir"),ttf_font="game_files/FreeSansBold.ttf",
+                                font_color=(128,128,255),bg_image=images["introd"],font_size=38)
         self.screen = screen
     def run_logic(self):
         if self.running:
@@ -57,7 +59,7 @@ class Game(object):
                 # See if we have to shift the levels   
                 limit_left =  self.level.limit_left()
                 x = self.player.rect.x
-                if  limit_left and x > SCREEN_WIDTH - 105:
+                if  limit_left and x > SCREEN_WIDTH - 215:
                     if self.currentLevel < len(self.levelList) -1:
                         pygame.mixer.music.stop()
                         self.player.rect.center = (93,324)
@@ -84,21 +86,33 @@ class Game(object):
             self.level.draw(screen)
             self.playerSprite.draw(screen)
             
-            screen.blit(images["hud_p3Alt"],(5,5))
-            screen.blit(images["hud_x"],(40,15))
-            if self.lives == 3:
-                screen.blit(images["hud_3"],(70,10))
-            elif self.lives == 2:
-                screen.blit(images["hud_2"],(70,10))
-            elif self.lives == 1:
-                screen.blit(images["hud_1"],(70,10))
-            else:
-                screen.blit(images["hud_0"],(70,10))
-                
-            screen.blit(images["hud_coin"],(140,10))
-            screen.blit(images["hud_x"],(190,20))
-            
+            screen.blit(images["hud_hear"],(3,8))
+            screen.blit(images["hud_x"],(40,8))
 
+
+            screen.blit(images["hud_p3Alt"],(5,40))
+            screen.blit(images["hud_x"],(40,45))
+
+            if self.lives == 3:
+                screen.blit(images["hud_3"],(70,40))
+            elif self.lives == 2:
+                screen.blit(images["hud_2"],(70,40))
+            elif self.lives == 1:
+                screen.blit(images["hud_1"],(70,40))
+            else:
+                screen.blit(images["hud_0"],(70,40))
+                
+            screen.blit(images["hud_coin"],(165,5))
+            screen.blit(images["hud_x"],(200,8))
+            
+            lives = str(self.player.lives)
+            if len(lives) < 2:
+                lives = "0" + lives 
+
+            i = 50
+            for m in lives:
+                screen.blit(self.number_image1(int(m)),(20+i,5))
+                i += 35
             
             # draw the number of coins collected: ----------------------
             coins = str(self.player.coins)
@@ -106,26 +120,39 @@ class Game(object):
                 coins = "0" + coins
             i = 50
             for n in coins:
-                screen.blit(self.number_image(int(n)),(170+i,10))
+                screen.blit(self.number_image(int(n)),(180+i,5))
+                i += 35
+
+            gem = str(self.player.coins)
+            if len(gem) < 2:
+                gem = "0" + gem
+            i = 50
+            for n in gem:
+                screen.blit(self.number_image(int(n)),(180+i,5))
                 i += 35
             # ----------------------------------------------------------
             text = self.text_font.render("Nivel:",True,(255,215,0))
-            screen.blit(text,(334,10)) 
-            screen.blit(self.number_image(self.currentLevel +1),(430,10))
+            screen.blit(text,(334,5)) 
+            screen.blit(self.number_image(self.currentLevel +1),(400,7))
             
             if self.win_message:
-                text = self.text_font.render("You Won!",True,(128,128,255))
-                screen.blit(text,(10,200))
+                text = self.text_font.render("¡Lo lograste!",True,(128,128,255))
+                screen.blit(text,(100,200))
                 pygame.display.flip() 
                 pygame.time.wait(3000)
                 self.running = False
                 self.win_message = False
+        elif self.about_menu:
+            
+            #fondo = pygame.image.load("game_files/instrucciones.png").convert()
+            self.screen.blit(images["instrucciones"],(0,0))
+
 
         elif self.game_over:
-            self.screen.blit(images["intro"],(0,0))
+            self.screen.blit(images["background"],(0,0))
             text = self.text_font.render("GAME OVER",True,(128,128,255))
             screen.blit(text,(250,125))
-            text = self.text_font.render("press ESC to go back to the menu",True,(128,128,255))
+            text = self.text_font.render("Presiona SCP para regresar al menu",True,(128,128,255))
             screen.blit(text,(30,300)) 
         else:
             self.menu.display_frame()
@@ -152,6 +179,29 @@ class Game(object):
             return images["hud_9"]
         else:
             return images["hud_0"]
+
+        #_____________________________
+    def number_image1(self,m):
+        if m== 1:
+            return images["hud_1"]
+        elif m == 2:
+            return images["hud_2"]
+        elif m == 3:
+            return images["hud_3"]
+        elif m == 4:
+            return images["hud_4"]
+        elif m == 5:
+            return images["hud_5"]
+        elif m == 6:
+            return images["hud_6"]
+        elif m == 7:
+            return images["hud_7"]
+        elif m == 8:
+            return images["hud_8"]
+        elif m == 9:
+            return images["hud_9"]
+        else:
+            return images["hud_0"]
     #-------------------------------------------------------------------
     def eventHandler(self):
         flag = False
@@ -163,14 +213,21 @@ class Game(object):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.player.move_left()
+
+
                 elif event.key == pygame.K_RIGHT:
                     self.player.move_right()
+                    
                 elif event.key == pygame.K_UP:
                     if self.running:
                         self.player.jump()
+
                 elif event.key == pygame.K_DOWN:
                     if self.running:
                         self.player.down()
+                elif event.key== pygame.K_p:
+                    pausa()
+
                 elif event.key == pygame.K_ESCAPE:
                     if self.running:
                         self.running = False
@@ -178,6 +235,7 @@ class Game(object):
                     self.lives = 3
                     self.help_menu = False
                     self.game_over = False
+                    self.about_menu=False
                 elif event.key == pygame.K_RETURN and not self.running:
                     if not self.about_menu and not self.game_over:
                         if self.menu.state == 0:

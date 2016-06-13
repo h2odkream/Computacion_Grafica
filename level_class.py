@@ -25,12 +25,15 @@ class Level(object):
         self.platform_list = pygame.sprite.Group()# lista de plataformas
         self.block_list = pygame.sprite.Group()#listas de bloques
         self.hud_list = pygame.sprite.Group()#listas de hud
+        self.hudheart_list=pygame.sprite.Group()
+        self.hudgem_list=pygame.sprite.Group()
+
         self.score_list = pygame.sprite.Group()#listas de puntuacion
         self.items_list = pygame.sprite.Group()#listas de articulos
         self.dead_sprites_list = pygame.sprite.Group()#lista de sprite muertos
         # Pass player object -------------------------------------------
         self.player = player# creo unatributo que va contener la imagen del jugador
-        self.background = images["background"] #el atributo bacground contiene la imagen del fonto
+        #self.background = images["background"] #el atributo bacground contiene la imagen del fonto
         # How far this world has been scrolled left/right/up/down.
         self.world_shift = [0,SCREEN_HEIGHT *-1]# cuando llegue a ese limite, cambia de nivel
     #===================================================================  
@@ -48,8 +51,8 @@ class Level(object):
                 if score.check():
                     self.score_list.remove(score)
             # check limits:
-            if self.player.rect.x > SCREEN_WIDTH -142 and not self.limit_left():
-                self.player.rect.x = SCREEN_WIDTH -142
+            if self.player.rect.x > SCREEN_WIDTH -425 and not self.limit_left():
+                self.player.rect.x = SCREEN_WIDTH -425
                 self.shift_world((-3,0))
             elif self.player.rect.x < 60 and self.world_shift[0] < 0:
                 self.player.rect.x = 60
@@ -80,7 +83,9 @@ class Level(object):
     #===================================================================    
     def draw(self,screen):
         """draw everything on the screen"""
-        screen.fill(self.background_color)
+        #screen.fill(self.background_color)
+        screen.blit(self.fondo,(0,0))
+
         # Draw all the platforms into the screen:
         self.platform_list.draw(screen)
         # Draw all the items objects:
@@ -95,6 +100,8 @@ class Level(object):
         self.dead_sprites_list.draw(screen)
         # Draw all the hud object into the screen:
         self.hud_list.draw(screen)
+        self.hudheart_list.draw(screen)
+        self.hudgem_list.draw(screen)
         # Draw score items into the screen: ----------------------------
         self.score_list.draw(screen)
     #===================================================================
@@ -125,6 +132,14 @@ class Level(object):
         for hud in self.hud_list:
             hud.rect.x += shift[0]
             hud.rect.y += shift[1]
+
+        for hudg in self.hudgem_list:
+            hudg.rect.x += shift[0]
+            hudg.rect.y += shift[1]
+        #-------------------------------------------
+        for hudh in self.hudheart_list:
+            hudh.rect.x += shift[0]
+            hudh.rect.y += shift[1]
         #-------------------------------------------
         for item in self.items_list:
             item.rect.x += shift[0]

@@ -6,12 +6,18 @@ def loadImages():
     images = {}
     #-------------------------------------------------------------------
     images["background"] = pygame.image.load("game_files/background.png").convert()
-    images["intro"] = pygame.image.load("game_files/intro.png").convert()
-    images["playerFront"] = pygame.image.load("game_files/p3_walk01.png").convert_alpha()
-    images["playerWalk01"] = pygame.image.load("game_files/p3_walk01.png").convert_alpha()
-    images["playerWalk02"] = pygame.image.load("game_files/p3_walk02.png").convert_alpha()
-    images["playerWalk03"] = pygame.image.load("game_files/p3_walk03.png").convert_alpha()
-    images["playerJump"] = pygame.image.load("game_files/p3_walk03.png").convert_alpha()
+    images["background1"]=pygame.image.load("game_files/background1.png")
+    images["introd"] = pygame.image.load("game_files/introd.png").convert()
+    images["introd1"] = pygame.image.load("game_files/introd1.png").convert()
+    images["instrucciones"] = pygame.image.load("game_files/instrucciones.png").convert()
+    images["pausa"] = pygame.image.load("game_files/pausa.png").convert()
+     
+    #jugador
+    images["playerFront"] = pygame.image.load("game_files/boy7.png").convert_alpha()
+    images["playerWalk01"] = pygame.image.load("game_files/boy6.png").convert_alpha()
+    images["playerWalk02"] = pygame.image.load("game_files/boy3.png").convert_alpha()
+    images["playerWalk03"] = pygame.image.load("game_files/boy1.png").convert_alpha()
+    images["playerJump"] = pygame.image.load("game_files/boy2.png").convert_alpha()
     
     images["grassCliff"] = pygame.image.load("game_files/grassCliff.png").convert_alpha()
     images["grassCliffAlt"] = pygame.image.load("game_files/grassCliffAlt.png").convert_alpha()
@@ -53,12 +59,18 @@ def loadImages():
     images["slime2"] = pygame.image.load("game_files/slimeWalk2.png").convert_alpha()
     images["slimeDead"] = pygame.image.load("game_files/slimeDead.png").convert_alpha()
     
-    images["enemigo1"] = pygame.image.load("game_files/enemigo1.png").convert_alpha()
-    images["enemigo2"] = pygame.image.load("game_files/enemigo2.png").convert_alpha()
-    images["enemigo3"] = pygame.image.load("game_files/enemigo3.png").convert_alpha()
-    images["enemigo4"] = pygame.image.load("game_files/enemigo4.png").convert_alpha()
-
+    images["enemigo1"] = pygame.image.load("game_files/p3_walk01.png").convert_alpha()
+    images["enemigo2"] = pygame.image.load("game_files/p3_walk02.png").convert_alpha()
+    images["enemigo3"] = pygame.image.load("game_files/p3_walk03.png").convert_alpha()
+    images["enemigo4"] = pygame.image.load("game_files/p3_walk01.png").convert_alpha()
     
+    images["frame1"]=pygame.image.load("game_files/frame-1.png")
+    images["frame2"]=pygame.image.load("game_files/frame-2.png")
+    images["frame3"]=pygame.image.load("game_files/frame3.png")
+    images["frame4"]=pygame.image.load("game_files/frame4.png")
+    images["frame5"]=pygame.image.load("game_files/frame5.png")
+
+
     images["hud_0"] = pygame.image.load("game_files/hud_0.png").convert_alpha()
     images["hud_1"] = pygame.image.load("game_files/hud_1.png").convert_alpha()
     images["hud_2"] = pygame.image.load("game_files/hud_2.png").convert_alpha()
@@ -70,6 +82,7 @@ def loadImages():
     images["hud_8"] = pygame.image.load("game_files/hud_8.png").convert_alpha()
     images["hud_9"] = pygame.image.load("game_files/hud_9.png").convert_alpha()
     
+    images["hud_hear"] = pygame.image.load("game_files/hud_heartFull.png").convert_alpha()
     images["hud_p3Alt"] = pygame.image.load("game_files/hud_p3Alt.png").convert_alpha()
     images["hud_x"] = pygame.image.load("game_files/hud_x.png").convert_alpha()
     images["hud_coin"] = pygame.image.load("game_files/hud_coins.png").convert_alpha()
@@ -89,11 +102,6 @@ def loadImages():
     
     images["snailShell"] = pygame.image.load("game_files/snailShell.png").convert_alpha()
     
-    images["flagBlue"] = pygame.image.load("game_files/flagBlue.png").convert_alpha()
-    images["flagBlue2"] = pygame.image.load("game_files/flagBlue2.png").convert_alpha()
-    
-    images["flagGreen"] = pygame.image.load("game_files/flagGreen.png").convert_alpha()
-    images["flagGreen2"] = pygame.image.load("game_files/flagGreen2.png").convert_alpha()
     
     images["signExit"] = pygame.image.load("game_files/signExit.png").convert_alpha()
     
@@ -103,14 +111,24 @@ def loadImages():
     
     images["liquidLavaTop_mid"] = pygame.image.load("game_files/liquidLavaTop_mid.png").convert_alpha()
     
-    images["sandHalf"] = pygame.image.load("game_files/sandHalf.png").convert_alpha()
-    images["sandHalfLeft"] = pygame.image.load("game_files/sandHalfLeft.png").convert_alpha()
-    images["sandHalfMid"] = pygame.image.load("game_files/sandHalfMid.png").convert_alpha()
-    images["sandHalfRight"] = pygame.image.load("game_files/sandHalfRight.png").convert_alpha()
-    
-    images["sandLeft"] = pygame.image.load("game_files/sandLeft.png").convert_alpha()
-    images["sandMid"] = pygame.image.load("game_files/sandMid.png").convert_alpha()
-    images["sandRight"] = pygame.image.load("game_files/sandRight.png").convert_alpha()
+   
+    images["mur1"] = pygame.image.load("game_files/mur1.png").convert_alpha()
+    images["mur2"] = pygame.image.load("game_files/mur2.png").convert_alpha()
+    images["mur3"] = pygame.image.load("game_files/mur3.png").convert_alpha()
+    images["mur4"] = pygame.image.load("game_files/mur4.png").convert_alpha()
+
+    images["mur11"] = pygame.image.load("game_files/mur11.png").convert_alpha()
+    images["mur12"] = pygame.image.load("game_files/mur12.png").convert_alpha()
+    images["mur13"] = pygame.image.load("game_files/mur13.png").convert_alpha()
+    images["mur14"] = pygame.image.load("game_files/mur14.png").convert_alpha()
+
+
+    images["mur21"] = pygame.image.load("game_files/mur21.png").convert_alpha()
+    images["mur22"] = pygame.image.load("game_files/mur22.png").convert_alpha()
+    images["mur23"] = pygame.image.load("game_files/mur23.png").convert_alpha()
+    images["mur24"] = pygame.image.load("game_files/mur24.png").convert_alpha()
+
+   
     #-------------------------------------------------------------------
     return images
     
@@ -128,3 +146,4 @@ def loadSounds():
     sounds["button"] = pygame.mixer.Sound("game_files/button.ogg")
     #-------------------------------------------------------------------
     return sounds
+
